@@ -1,4 +1,35 @@
 <?php
+include "Gallery.php";
+$user = new Gallery();
+$gallery = $user->getPictures();
+
+    $user->name = $_POST['name'];
+    $user->comment = $_POST['comment'];
+    $user->size = $_FILES['picture']['size'];
+    $user->type = array_pop(explode(".",@$_FILES['picture']['name']));
+
+if (isset($_POST['submit']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
+
+    $errors =false;
+    if (@$user->checkTypePicture()){
+    }else{
+        $errors[]= 'Не правильный тип картинки';
+    }
+
+    if (@$user->checkSizePicture()){
+    }else{
+        $errors[]= 'Обем файла не должен привышать 1 мб';
+    }
+
+    if ($errors == false){
+
+        if($user->addPictures() == true && $user->checkPathImages() == true)
+            header("Location: /");
+
+    }else{
+        $errors[]= 'Ваш фильм не добавлен';
+    }
+}
 
 ?>
 <!doctype html>
@@ -10,6 +41,12 @@
     <meta name="description" content="#" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Online gallery</title>
+    <link rel="stylesheet" href="/template/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/template/bootstrap/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/template/style/main.css">
+    <script type="text/javascript" src="/template/script/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="/template/bootstrap/js/bootstrap.min.js"></script>
+
 
 </head>
 <body>
@@ -49,6 +86,20 @@
 <div class="container">
     <div id="add-pictures">
 
+    </div>
+</div>
+<div class="container">
+    <div class="container">
+        <div id="gallery" >
+            <? foreach ($gallery as $items):?>
+                <div class="col-lg-4" id="helped">
+                    <div ><?= $items['date'] ;?></div>
+                    <p><img src="/template/images/pic<?php echo $items['id'] ;?>.<?php echo $items['format'] ;?>" width="300" height="220" alt="" /></p>
+                    <p><?= $items['comment'] ;?> </p><br />
+                    <a href='/delete/<?= $items['id'] ;?>' class='btn btn-primary'>Delete</a>
+                </div>
+            <? endforeach; ?>
+        </div>
     </div>
 </div>
 
