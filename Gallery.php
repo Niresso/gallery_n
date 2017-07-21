@@ -9,31 +9,17 @@ class Gallery
     public $comment;
     public $type;
     public $path = 'template/images/';
+public $tmp;
 
 
 
-
-    public function checkTypePicture(){
-
-        if (in_array($_FILES['picture']['type'], $this->format)){
-            return true;
-        }
-        return false;
-    }
-    public function checkSizePicture(){
-
-        if ($_FILES['film']['size'] <= $this->size){
-            return true;
-        }
-        return false;
-    }
     public function getConnection()
     {
         $params =  array(
             'host' => 'localhost',
-            'dbname' => 'gallery',
-            'user' => 'root',
-            'password' => '',
+            'dbname' => 'renede',
+            'user' => 'renede',
+            'password' => '54315431',
         );
 
         $dsn = "mysql:host={$params['host']};dbname={$params['dbname']}";
@@ -62,9 +48,9 @@ class Gallery
 
         $params =  array(
             'host' => 'localhost',
-            'dbname' => 'gallery',
-            'user' => 'root',
-            'password' => '',
+            'dbname' => 'renede',
+            'user' => 'renede',
+            'password' => '54315431',
         );
 
         $dsn = "mysql:host={$params['host']};dbname={$params['dbname']}";
@@ -117,7 +103,7 @@ class Gallery
      */
     public function checkPathImages(){
         $tmp_name = 'pic'.$this->getTotalID().'.'.$this->type;
-        if (@copy($_FILES['picture']['tmp_name'], $this->path . $_FILES['name'].$tmp_name)){
+        if (@copy($this->tmp,$this->path.$tmp_name)){
             return true;
         }
         return false;

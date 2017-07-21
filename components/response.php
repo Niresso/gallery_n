@@ -1,6 +1,6 @@
 <?php
 
-require_once ('../Gallery.php');
+require ('../Gallery.php');
 
 $picture = Gallery::getPicturesjson();
 

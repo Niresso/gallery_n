@@ -1,3 +1,7 @@
 .form-add-pictures{
     margin:2% 15%;
 }
+#add-pictures{
+  display: none;
+}
+

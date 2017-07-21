@@ -1,84 +1,8 @@
 
+
 $(document).ready(function () {
     $('#btn-add-picture').click(function () {
-        $("#add-pictures").empty()
-            .append(function() {
-                var form = document.createElement('form');
-                form.className = "form-add-pictures";
-                form.method = "post";
-                form.id = "ajax_form";
-                form.enctype = 'multipart/form-data';
-                return form;
-            });
-        $(".form-add-pictures").append(function() {
-            var div = document.createElement('div');
-            div.className = "form-group";
-            div.id = "f1";
-            return div;
-        })
-            .append(function() {
-                var div = document.createElement('div');
-                div.className = "form-group";
-                div.id = "f3";
-                return div;
-            })
-            .append(function() {
-                var div = document.createElement('div');
-                div.className = "form-group";
-                div.id = "f2";
-                return div;
-            })
-            .append(function() {
-                var input = document.createElement('input');
-                input.type = "submit";
-                input.className = "btn btn-default";
-                input.name =  "submit";
-                input.id = "btn-add";
-                return input;
-            });
-        $("#f1").append(function() {
-            var label = document.createElement('label');
-            label.for = "exampleInputName";
-            label.innerHTML = "Название картинки:";
-            return label;
-        })
-            .append(function() {
-                var input = document.createElement('input');
-                input.type = "text";
-                input.className = "form-control";
-                input.name =  "name";
-                input.id = 'exampleInputName';
-                input.placeholder='Enter name';
-                return input;
-            });
-        $("#f3").append(function() {
-            var label = document.createElement('label');
-            label.for = "exampleInputFile";
-            label.innerHTML = "Файл:";
-            return label;
-        })
-            .append(function() {
-                var input = document.createElement('input');
-                input.type = "file";
-                input.name =  "picture";
-                input.id = 'exampleInputFile';
-                return input;
-            });
-        $("#f2").append(function() {
-            var label = document.createElement('label');
-            label.for = "exampleInputTextarea";
-            label.innerHTML = "Коментарий:";
-            return label;
-        })
-            .append(function() {
-                var input = document.createElement('textarea');
-                input.className = "form-control";
-                input.name =  "comment";
-                input.rows = '3';
-                input.maxlength='200';
-                input.id='exampleInputTextarea';
-                return input;
-            });
+        document.getElementById("add-pictures").style.display="block";//показать
     })
 });
 
@@ -93,7 +17,7 @@ $( document ).ready(function() {
                 result = jQuery.parseJSON(response);
 
                 $("div#gallery").empty();
-                $("#add-pictures").empty();
+                document.getElementById("add-pictures").style.display="none";
                 var aa = null;
                 for (var n=0; n<result.length;n++){
                     aa += $('#gallery').append("<div class='col-lg-4'>"+ result[n].date
@@ -119,7 +43,7 @@ $( document ).ready(function() {
                 result = jQuery.parseJSON(response);
 
                 $("div#gallery").empty();
-                $("#add-pictures").empty();
+                document.getElementById("add-pictures").style.display="none";
                 var aa = null;
                 for (var n=0; n<result.length;n++){
                     aa += $('#gallery').append("<div class='col-lg-4'>"+ result[n].date
@@ -145,7 +69,7 @@ $( document ).ready(function() {
                 result = jQuery.parseJSON(response);
 
                 $("div#gallery").empty();
-                $("#add-pictures").empty();
+                document.getElementById("add-pictures").style.display="none";
                 var aa = null;
                 for (var n=0; n<result.length;n++){
                     aa += $('#gallery').append("<div class='col-lg-4'>"+ result[n].date
@@ -161,3 +85,50 @@ $( document ).ready(function() {
 });
 
 
+
+$(function(){
+    $('#ajax_form').on('submit', function(e){
+        e.preventDefault();
+        var $that = $(this),
+            formData = new FormData($that.get(0));
+        $.ajax({
+            url:  '/components/add_form.php',
+            type:     "POST",
+            contentType: false,
+            processData: false,
+            data: formData,
+            dataType: "html",
+            success:function(response){
+                result = jQuery.parseJSON(response);
+                if(  result.status === 0 ){
+                    $("#exampleInputTextarea").val('');
+                    $("#exampleInputFile").val('');
+                    $("#exampleInputName").val('');
+                    document.getElementById("add-pictures").style.display="none";
+                }else {
+                    alert('Размер файла превышает больше 1МБ');
+                }
+
+            }
+        });
+    });
+});
+
+
+$("body").on("click", ".col-lg-4 a", function(e) {
+    e.preventDefault();
+    var clickedID = this.id.split("-"); //Разбиваем строку (Split работает аналогично PHP explode)
+    var DbNumberID = clickedID[1]; //и получаем номер из массива
+    var myData = 'recordToDelete='+ DbNumberID; //выстраиваем  данные для POST
+
+    jQuery.ajax({
+        type: "POST", // HTTP метод  POST или GET
+        url: '/components/delete.php', //url-адрес, по которому будет отправлен запрос
+        dataType:"text", // Тип данных
+        data:myData, //post переменные
+        success:function(){
+            // в случае успеха, скрываем, выбранный пользователем для удаления, элемент
+            $('#helped_'+DbNumberID).fadeOut("slow");
+        }
+    });
+});
