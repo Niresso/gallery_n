@@ -1,7 +1,13 @@
-.form-add-pictures{
-    margin:2% 15%;
+.form-add-pictures {
+    margin: 2% 15%;
 }
-#add-pictures{
-  display: none;
+
+#add-pictures {
+    display: none;
+}
+
+.comment {
+    border: none;
+    resize: none;
 }
 
