@@ -20,8 +20,9 @@ $(document).ready(function () {
                 for (var n = 0; n < result.length; n++) {
                     aa += $('#gallery').append("<div class='col-lg-4' id='helped_" + result[n].id + "'>" + result[n].date
                         + "<p><img src='/template/images/pic" + result[n].id + "." + result[n].format
-                        + "' width='300' height='220' alt='' /></p>" + result[n].comment
-                        + "<br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
+                        + "' width='300' height='220' alt='' /></p><textarea cols='40' class='comment' id='commentid-"
+                        + result[n].id + "'>" + result[n].comment
+                        + "</textarea><br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
                     );
                 }
             }
@@ -45,8 +46,9 @@ $(document).ready(function () {
                 for (var n = 0; n < result.length; n++) {
                     aa += $('#gallery').append("<div class='col-lg-4' id='helped_" + result[n].id + "'>" + result[n].date
                         + "<p><img src='/template/images/pic" + result[n].id + "." + result[n].format
-                        + "' width='300' height='220' alt='' /></p>" + result[n].comment
-                        + "<br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
+                        + "' width='300' height='220' alt='' /></p><textarea cols='40' class='comment' id='commentid-"
+                        + result[n].id + "'>" + result[n].comment
+                        + "</textarea><br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
                     );
                 }
             }
@@ -70,8 +72,9 @@ $(document).ready(function () {
                 for (var n = 0; n < result.length; n++) {
                     aa += $('#gallery').append("<div class='col-lg-4' id='helped_" + result[n].id + "'>" + result[n].date
                         + "<p><img src='/template/images/pic" + result[n].id + "." + result[n].format
-                        + "' width='300' height='220' alt='' /></p>" + result[n].comment
-                        + "<br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
+                        + "' width='300' height='220' alt='' /></p><textarea cols='40' class='comment' id='commentid-"
+                        + result[n].id + "'>" + result[n].comment
+                        + "</textarea><br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
                     );
                 }
             }
@@ -111,17 +114,16 @@ $(document).ready(function () {
 
 $("body").on("click", ".col-lg-4 a", function (e) {
     e.preventDefault();
-    var clickedID = this.id.split("-"); //Разбиваем строку (Split работает аналогично PHP explode)
-    var DbNumberID = clickedID[1]; //и получаем номер из массива
-    var myData = 'recordToDelete=' + DbNumberID; //выстраиваем  данные для POST
+    var clickedID = this.id.split("-");
+    var DbNumberID = clickedID[1];
+    var myData = 'recordToDelete=' + DbNumberID;
 
     jQuery.ajax({
-        type: "POST", // HTTP метод  POST или GET
-        url: '/components/delete.php', //url-адрес, по которому будет отправлен запрос
-        dataType: "text", // Тип данных
-        data: myData, //post переменные
+        type: "POST",
+        url: '/components/delete.php',
+        dataType: "text",
+        data: myData,
         success: function () {
-            // в случае успеха, скрываем, выбранный пользователем для удаления, элемент
             $('#helped_' + DbNumberID).fadeOut("slow");
         }
     });
@@ -129,7 +131,9 @@ $("body").on("click", ".col-lg-4 a", function (e) {
     e.preventDefault();
     var clickedID = this.id.split("-");
     var DbNumberID = clickedID[1];
+    var Date = $(this).text();
     var comment = $('#commentid-' + DbNumberID).val();
+    if (Date !== comment) {
     jQuery.ajax({
         type: "POST",
         url: '/components/update-comment.php',
@@ -139,7 +143,7 @@ $("body").on("click", ".col-lg-4 a", function (e) {
             alert('Вы изменили комментарий!');
 
         }
-    });
+    });}
 });
 
 
