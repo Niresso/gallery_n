@@ -8,9 +8,10 @@ class Gallery
     public $format = array('image/jpg', 'image/png', 'image/jpeg');
     public $comment;
     public $type;
-    public $path = 'template/images/';
+    public $path = '../template/images/';
     public $id;
     public $tmp;
+    public $picturename;
 
 
     public function checkTypePicture()

@@ -7,6 +7,7 @@ $user->comment = $_POST['comment'];
 $size = $user->size = $_FILES['picture']['size'];
 $user->type = array_pop(explode(".",@$_FILES['picture']['name']));
 $user->tmp =  $_FILES['picture']['tmp_name'];
+$user->picturename =  $_FILES['picture']['name'];
 $size_constant = 1000000;
 
 if (intval($size) <= $size_constant){
