@@ -53,10 +53,10 @@ class Gallery
 
         $db = $this->getConnection();
         $result = $db->prepare('INSERT INTO pictures (name,format,size,comment) VALUE (?,?,?,?)');
-        $result->bindParam(1, $this->name);
+        $result->bindParam(1, htmlspecialchars($this->name));
         $result->bindParam(2, $this->type);
         $result->bindParam(3, $this->size);
-        $result->bindParam(4, $this->comment);
+        $result->bindParam(4, htmlspecialchars($this->comment));
 
         return $result->execute();
     }
@@ -110,7 +110,7 @@ class Gallery
         $db = $this->getConnection();
         $sql = "UPDATE pictures SET comment = ? WHERE id = ?";
         $result = $db->prepare($sql);
-        $result->bindParam(1, $this->comment);
+        $result->bindParam(1, htmlspecialchars($this->comment));
         $result->bindParam(2, $this->id);
         return $result->execute();
     }
