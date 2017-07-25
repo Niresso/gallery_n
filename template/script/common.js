@@ -1,16 +1,18 @@
+// show form addPicture
+
 $(document).ready(function () {
     $('#btn-add-picture').click(function () {
         document.getElementById("add-pictures").style.display = "block";//показать
     })
 });
-
+// show form update
 $(document).ready(function () {
     $("#btn-sort").click(function () {
         jQuery.ajax({
             url: '/components/response.php',
             type: "POST",
             dataType: "html",
-            data: 'json',
+            data: {update: 1},
             success: function (response) {
                 result = jQuery.parseJSON(response);
 
@@ -29,14 +31,16 @@ $(document).ready(function () {
         });
     });
 });
+
+// show form sort date
 
 $(document).ready(function () {
     $("#btn-sort-date").click(function () {
         jQuery.ajax({
-            url: '/components/response-sort-date.php',
+            url: '/components/response.php',
             type: "POST",
             dataType: "html",
-            data: 'json',
+            data: {date: 1},
             success: function (response) {
                 result = jQuery.parseJSON(response);
 
@@ -55,14 +59,16 @@ $(document).ready(function () {
         });
     });
 });
+
+// show form sort size
 
 $(document).ready(function () {
     $("#btn-sort-size").click(function () {
         jQuery.ajax({
-            url: '/components/response-sort-size.php',
+            url: '/components/response.php',
             type: "POST",
             dataType: "html",
-            data: 'json',
+            data: {size: 1},
             success: function (response) {
                 result = jQuery.parseJSON(response);
 
@@ -82,6 +88,7 @@ $(document).ready(function () {
     });
 });
 
+// add Picture
 
 $(document).ready(function () {
     $('#ajax_form').on('submit', function (e) {
@@ -89,7 +96,7 @@ $(document).ready(function () {
         var $that = $(this),
             formData = new FormData($that.get(0));
         $.ajax({
-            url: '/components/add_form.php',
+            url: '/components/response.php',
             type: "POST",
             contentType: false,
             processData: false,
@@ -111,6 +118,7 @@ $(document).ready(function () {
     });
 });
 
+// delete picture and update comment
 
 $("body").on("click", ".col-lg-4 a", function (e) {
     e.preventDefault();
@@ -120,7 +128,7 @@ $("body").on("click", ".col-lg-4 a", function (e) {
 
     jQuery.ajax({
         type: "POST",
-        url: '/components/delete.php',
+        url: '/components/response.php',
         dataType: "text",
         data: myData,
         success: function () {
@@ -136,7 +144,7 @@ $("body").on("click", ".col-lg-4 a", function (e) {
     if (Date !== comment) {
     jQuery.ajax({
         type: "POST",
-        url: '/components/update-comment.php',
+        url: '/components/response.php',
         dataType: "text",
         data: {id: DbNumberID, comm: comment},
         success: function () {
