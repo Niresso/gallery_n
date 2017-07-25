@@ -109,6 +109,13 @@ $(document).ready(function () {
                     $("#exampleInputFile").val('');
                     $("#exampleInputName").val('');
                     document.getElementById("add-pictures").style.display = "none";
+
+                    $('#gallery').prepend("<div class='col-lg-4' id='helped_" + result.id + "'>" + result.date
+                        + "<p><img src='/template/images/pic" + result.id + "." + result.format
+                        + "' width='300' height='220' alt='' /></p><textarea cols='40' class='comment' id='commentid-"
+                        + result.id + "'>" + result.comment
+                        + "</textarea><br /><a href='#' id='del-" + result.id + "' class='btn btn-primary'>Delete</a>"
+                    );
                 } else {
                     alert('Размер файла превышает больше 1МБ');
                 }

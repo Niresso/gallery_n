@@ -54,7 +54,14 @@ if (!empty($_POST['update'])) { // sort update
 
         $user->addPictures();
         $user->checkPathImages();
-        echo json_encode(['status' => 0]);
+        $result = [
+            'id'=>$user->getTotalID()['id'],
+            'date'=>$user->getTotalID()['date'],
+            'format'=> $user->type,
+            'comment'=>$_POST['comment'],
+            'status' => 0,
+        ];
+        echo json_encode( $result);
     } else {
 
         echo json_encode(['status' => 1]);

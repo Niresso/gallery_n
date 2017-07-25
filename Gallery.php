@@ -16,9 +16,9 @@ class Gallery
     {
         $params = array(
             'host' => 'localhost',
-            'dbname' => 'gallery',
-            'user' => 'root',
-            'password' => '',
+            'dbname' => 'renede',
+            'user' => 'renede',
+            'password' => '54315431',
         );
 
         $dsn = "mysql:host={$params['host']};dbname={$params['dbname']}";
@@ -69,13 +69,13 @@ class Gallery
 
         $db = $this->getConnection();
         $TotalID = array();
-        $result = $db->query('SELECT id FROM pictures ORDER BY id DESC LIMIT  1 ');
+        $result = $db->query('SELECT * FROM pictures ORDER BY id DESC LIMIT  1 ');
         $i = 0;
         while ($row = $result->fetch()) {
-            $TotalID[$i]['id'] = $row['id'];
+            $TotalID[$i] = $row;
             $i++;
         }
-        return @$TotalID[0]['id'];
+        return @$TotalID[0];
     }
 
     /**
@@ -83,7 +83,7 @@ class Gallery
      */
     public function checkPathImages()
     {
-        $tmp_name = 'pic' . $this->getTotalID() . '.' . $this->type;
+        $tmp_name = 'pic' . $this->getTotalID()['id'] . '.' . $this->type;
         if (@copy($this->tmp, $this->path . $tmp_name)) {
             return true;
         }
