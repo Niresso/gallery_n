@@ -4,11 +4,7 @@ require('../Gallery.php');
 
 $user = new Gallery();
 
-if (!empty($_POST['update'])) { // sort update
-    // Переводим массив в JSON
-    echo json_encode($user->getPictures());
-
-} elseif (!empty($_POST['date'])) { // sort date
+if (!empty($_POST['date'])) { // sort date
     $a = $user->getPictures();
 
     function mysort($a, $b)

@@ -16,9 +16,9 @@ class Gallery
     {
         $params = array(
             'host' => 'localhost',
-            'dbname' => 'renede',
-            'user' => 'renede',
-            'password' => '54315431',
+            'dbname' => 'gallery',
+            'user' => 'root',
+            'password' => '',
         );
 
         $dsn = "mysql:host={$params['host']};dbname={$params['dbname']}";

@@ -48,7 +48,6 @@ $gallery = $user->getPictures();
                 <ul class="nav navbar-nav">
                     <li><a href="#" id="btn-sort-date">Сортировка по дате</a></li>
                     <li><a href="#" id="btn-sort-size">Сортировка по размеру</a></li>
-                    <li><a href="#" id="btn-sort">Обновить</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right" id="btn-close">
                     <li><a href="#" id="btn-add-picture">Добавить изображение</a></li>

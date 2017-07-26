@@ -5,32 +5,6 @@ $(document).ready(function () {
         document.getElementById("add-pictures").style.display = "block";//показать
     })
 });
-// show form update
-$(document).ready(function () {
-    $("#btn-sort").click(function () {
-        jQuery.ajax({
-            url: '/components/response.php',
-            type: "POST",
-            dataType: "html",
-            data: {update: 1},
-            success: function (response) {
-                result = jQuery.parseJSON(response);
-
-                $("div#gallery").empty();
-                document.getElementById("add-pictures").style.display = "none";
-                var aa = null;
-                for (var n = 0; n < result.length; n++) {
-                    aa += $('#gallery').append("<div class='col-lg-4' id='helped_" + result[n].id + "'>" + result[n].date
-                        + "<p><img src='/template/images/pic" + result[n].id + "." + result[n].format
-                        + "' width='300' height='220' alt='' /></p><textarea cols='40' class='comment' id='commentid-"
-                        + result[n].id + "'>" + result[n].comment
-                        + "</textarea><br /><a href='#' id='del-" + result[n].id + "' class='btn btn-primary'>Delete</a>"
-                    );
-                }
-            }
-        });
-    });
-});
 
 // show form sort date
 
