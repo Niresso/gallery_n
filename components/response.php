@@ -2,10 +2,10 @@
 
 require('../Gallery.php');
 
-$user = new Gallery();
+$gallery = new Gallery();
 
 if (!empty($_POST['date'])) { // sort date
-    $a = $user->getPictures();
+    $a = $gallery->getPictures();
 
     function mysort($a, $b)
     {
@@ -17,7 +17,7 @@ if (!empty($_POST['date'])) { // sort date
 
 } elseif (!empty($_POST['size'])) { // sort size
 
-    $a = $user->getPictures();
+    $a = $gallery->getPictures();
     function mysort($a, $b)
     {
         return ($b['size']) - ($a['size']);
@@ -28,36 +28,37 @@ if (!empty($_POST['date'])) { // sort date
 } elseif (!empty($_POST['recordToDelete'])) { // delete picture
 
     $id = filter_var($_POST["recordToDelete"], FILTER_SANITIZE_NUMBER_INT);
-    $user->deletePicture($id);
+    $gallery->id = $id;
+    $gallery->deletePicture();
 
 } elseif (!empty($_POST['comm'])) { // update comment
 
-    $user->id = $id = $_POST['id'];
-    $user->comment = $comment = $_POST['comm'];
-    $user->updateComment();
+    $gallery->id = $id = $_POST['id'];
+    $gallery->comment = $comment = $_POST['comm'];
+    $gallery->updateComment();
 
-} elseif (!empty($_FILES['picture'])) { // add picture
+} elseif (!empty($_FILES['picture']['tmp_name'])) { // add picture
 
-    $user->name = $_POST['name'];
-    $user->comment = $_POST['comment'];
-    $size = $user->size = $_FILES['picture']['size'];
-    $user->type = array_pop(explode(".", @$_FILES['picture']['name']));
-    $user->tmp = $_FILES['picture']['tmp_name'];
-    $user->picturename = $_FILES['picture']['name'];
+    $gallery->name = $_POST['name'];
+    $gallery->comment = $_POST['comment'];
+    $size = $gallery->size = $_FILES['picture']['size'];
+    $gallery->type = array_pop(explode(".", @$_FILES['picture']['name']));
+    $gallery->tmp = $_FILES['picture']['tmp_name'];
+    $gallery->picturename = $_FILES['picture']['name'];
     $size_constant = 1000000;
 
     if (intval($size) <= $size_constant) {
 
-        $user->addPictures();
-        $user->checkPathImages();
+        $gallery->addPictures();
+        $gallery->checkPathImages();
         $result = [
-            'id'=>$user->getTotalID()['id'],
-            'date'=>$user->getTotalID()['date'],
-            'format'=> $user->type,
+            'id'=>$gallery->getTotalID()['id'],
+            'date'=>$gallery->getTotalID()['date'],
+            'format'=> $gallery->type,
             'comment'=>$_POST['comment'],
             'status' => 0,
         ];
-        echo json_encode( $result);
+        echo json_encode($result);
     } else {
 
         echo json_encode(['status' => 1]);

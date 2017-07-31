@@ -4,7 +4,7 @@
 class Gallery
 {
     public $name;
-    public $size = 1000000;
+    public $size;
     public $format = array('image/jpg', 'image/png', 'image/jpeg');
     public $comment;
     public $type;
@@ -52,7 +52,8 @@ class Gallery
     {
 
         $db = $this->getConnection();
-        $result = $db->prepare('INSERT INTO pictures (name,format,size,comment) VALUE (?,?,?,?)');
+        $sql = 'INSERT INTO pictures (name,format,size,comment) VALUE (?,?,?,?)';
+        $result = $db->prepare($sql);
         $result->bindParam(1, htmlspecialchars($this->name));
         $result->bindParam(2, $this->type);
         $result->bindParam(3, $this->size);
@@ -68,14 +69,9 @@ class Gallery
     {
 
         $db = $this->getConnection();
-        $TotalID = array();
         $result = $db->query('SELECT * FROM pictures ORDER BY id DESC LIMIT  1 ');
-        $i = 0;
-        while ($row = $result->fetch()) {
-            $TotalID[$i] = $row;
-            $i++;
-        }
-        return @$TotalID[0];
+
+        return $result->fetch();
     }
 
     /**
@@ -90,9 +86,9 @@ class Gallery
         return false;
     }
 
-    public function deletePicture($id)
+    public function deletePicture()
     {
-        $id = intval($id);
+        $id = intval($this->id);
 
         $db = $this->getConnection();
         $sql = "DELETE FROM pictures WHERE id =:id ";
